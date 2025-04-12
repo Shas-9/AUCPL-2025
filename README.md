@@ -6,7 +6,7 @@ Create new branch every round
 Generating files:
 chmod +x script.sh
 
-If problems A-F
+If problems A-F:
 ./script.sh F
 
 Testing:
