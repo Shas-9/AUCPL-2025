@@ -15,11 +15,12 @@ end_ord=$(printf "%d" "'$end_letter")
 # Loop from 'a' to the input letter
 for ((i=start_ord; i<=end_ord; i++)); do
   char=$(printf "\\$(printf "%03o" "$i")")
-  mkdir "${char}test"
-  touch "$char.cpp"
-  cp template.cpp "$char.cpp"
+  mkdir "${char}"
+  touch "${char}/${char}.cpp"
+  touch "${char}/${char}.py"
+  cp template.cpp "${char}/${char}.cpp"
 
   for ((j=1; j<=7; j++)) do
-    touch "${char}test/${char}test$j.txt"
+    touch "${char}/${char}test$j.txt"
   done
 done
