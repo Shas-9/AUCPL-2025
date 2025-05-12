@@ -2,6 +2,17 @@
 
 using namespace std;
 
+#define endl '\n'
+
+using ll = long long;
+using pii = pair<int, int>;
+using pll = pair<ll, ll>;
+using vi = vector<int>;
+using vll = vector<ll>;
+
+#define um unordered_map
+#define us unordered_set
+
 void solve() {
     
 }
