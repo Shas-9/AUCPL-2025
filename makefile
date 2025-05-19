@@ -68,3 +68,5 @@ generate_%:
 clean:
 	@echo "Cleaning up .out files..."
 	@rm -f *.out
+
+# big recursion stack compilation: g++ -Wl,-stack_size,0xF0000000 sol.cpp
