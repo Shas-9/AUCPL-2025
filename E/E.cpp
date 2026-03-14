@@ -20,16 +20,47 @@ int main() {
     cin >> n;
 
     vector<int> v(n);
-    int p;
+    int p = 0;
 
-    for (int i = 0; i < 125; i++) {
-        cout << 1 << " " << n << endl;
+    for (int ops = 0; ops < 125; ops++) {
+
+        int l = 1, r = n;
+        cout << l << " " << r << endl;
         cout.flush();
 
-        for (int j = 0; j < n; j++) cin >> v[j];
+        for (int i = 0; i < n; i++) cin >> v[i];
         cin >> p;
 
-        if (p >= 70) break;
+        if (p >= 70) return 0;
+
+        int best_l = -1, best_r = -1;
+        int i = 0;
+
+        while (i < n) {
+            if (v[i] == 0) {
+                int j = i;
+                while (j < n && v[j] == 0) j++;
+                if (best_l == -1 || j - i > best_r - best_l) {
+                    best_l = i;
+                    best_r = j - 1;
+                }
+                i = j;
+            } else {
+                i++;
+            }
+        }
+
+        if (best_l == -1) return 0;
+
+        cout << best_l + 1 << " " << best_r + 1 << endl;
+        cout.flush();
+
+        for (int k = 0; k < n; k++) cin >> v[k];
+        cin >> p;
+
+        if (p >= 70) return 0;
+
+        ops++;
     }
 
     int tc = 1;
