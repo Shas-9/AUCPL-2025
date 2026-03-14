@@ -13,10 +13,9 @@ void solve() {
 }
 
 struct DSU {
-    vector<int> p, r;
+    vector<int> p;
     DSU(int n) {
         p.resize(n);
-        r.assign(n,0);
         iota(p.begin(), p.end(), 0);
     }
     int find(int x){
@@ -24,10 +23,7 @@ struct DSU {
     }
     void unite(int a,int b){
         a=find(a); b=find(b);
-        if(a==b) return;
-        if(r[a]<r[b]) swap(a,b);
-        p[b]=a;
-        if(r[a]==r[b]) r[a]++;
+        if(a!=b) p[b]=a;
     }
 };
 
@@ -36,13 +32,13 @@ int main(){
     cin.tie(0);
 
     int n;
-    cin>>n;
+    cin >> n;
     cin.ignore();
 
     unordered_map<string,int> id;
     id.reserve(2*n);
 
-    vector<pair<string,string>> edges;
+    vector<pair<int,int>> edges;
 
     for(int i=0;i<n;i++){
         string line;
@@ -54,25 +50,27 @@ int main(){
         int pos = line.find("son of ");
         string father = line.substr(pos + 7);
 
-        edges.push_back({child,father});
-
         if(!id.count(child)) id[child] = id.size();
         if(!id.count(father)) id[father] = id.size();
+
+        edges.push_back({id[child], id[father]});
     }
 
     DSU dsu(id.size());
 
-    for(auto &e:edges){
-        dsu.unite(id[e.first], id[e.second]);
-    }
+    for(auto &e:edges)
+        dsu.unite(e.first, e.second);
 
-    unordered_set<int> comps;
+    int root = dsu.find(edges[0].first);
+
     for(auto &p:id){
-        comps.insert(dsu.find(p.second));
+        if(dsu.find(p.second) != root){
+            cout << "impossible\n";
+            return 0;
+        }
     }
 
-    if(comps.size()==1) cout<<"possible\n";
-    else cout<<"impossible\n";
+    cout << "possible\n";
 
     return 0;
 }

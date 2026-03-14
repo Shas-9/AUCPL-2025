@@ -1,0 +1,38 @@
+Hidden Sequence
+Time limit: 4 seconds
+Three-player chess; one of the games of the evening. Public domain
+by Dr Jacek Filek on Wikimedia Commons
+Three players are having a game night, playing a long sequence of different
+games. In each game, one of the three players wins. In order to keep track
+of the order of winners, each of the three players decides to keep a list of
+all winners in order. However, due to the dopamine rush as the result of
+winning a game, everyone always forgets to write themselves on their own
+list of winners.
+Thus, the list of player 1 only contains the order in which players 2 and 3
+won the different games, the list of player 2 only contains the order in which
+players 1 and 3 won, and the list of player 3 only contains the order in which
+players 1 and 2 won.
+Given these three lists, determine the actual order in which all three players
+won their games.
+Input
+The input consists of:
+• Three lines, the ith of which contains a string si (1 ≤ |si| ≤ 105), the order in which the two players
+different from i won their games.
+It is guaranteed that it is always possible to determine the unique order in which all three players won their games.
+Output
+Output a single string containing the order in which all three players won their games.
+Sample Input 1 Sample Output 1
+2
+1
+21
+21
+Sample Input 2 Sample Output 2
+23
+13
+12
+123
+Sample Input 3 Sample Output 3
+23232323
+11331133
+12121212
+121323121323
