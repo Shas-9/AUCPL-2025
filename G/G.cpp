@@ -12,15 +12,67 @@ void solve() {
     
 }
 
-int main() {
-    ios_base::sync_with_stdio(0);
+struct DSU {
+    vector<int> p, r;
+    DSU(int n) {
+        p.resize(n);
+        r.assign(n,0);
+        iota(p.begin(), p.end(), 0);
+    }
+    int find(int x){
+        return p[x]==x ? x : p[x]=find(p[x]);
+    }
+    void unite(int a,int b){
+        a=find(a); b=find(b);
+        if(a==b) return;
+        if(r[a]<r[b]) swap(a,b);
+        p[b]=a;
+        if(r[a]==r[b]) r[a]++;
+    }
+};
+
+int main(){
+    ios::sync_with_stdio(0);
     cin.tie(0);
 
-    int tc = 1;
-    // cin >> tc; //comment out if 1 case
-    while(tc--) {
-        solve();
+    int n;
+    cin>>n;
+    cin.ignore();
+
+    unordered_map<string,int> id;
+    id.reserve(2*n);
+
+    vector<pair<string,string>> edges;
+
+    for(int i=0;i<n;i++){
+        string line;
+        getline(cin,line);
+
+        int comma = line.find(',');
+        string child = line.substr(0, comma);
+
+        int pos = line.find("son of ");
+        string father = line.substr(pos + 7);
+
+        edges.push_back({child,father});
+
+        if(!id.count(child)) id[child] = id.size();
+        if(!id.count(father)) id[father] = id.size();
     }
+
+    DSU dsu(id.size());
+
+    for(auto &e:edges){
+        dsu.unite(id[e.first], id[e.second]);
+    }
+
+    unordered_set<int> comps;
+    for(auto &p:id){
+        comps.insert(dsu.find(p.second));
+    }
+
+    if(comps.size()==1) cout<<"possible\n";
+    else cout<<"impossible\n";
 
     return 0;
 }
