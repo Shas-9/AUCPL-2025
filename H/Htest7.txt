@@ -1,0 +1,33 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string s1, s2, s3;
+    cin >> s1 >> s2 >> s3;
+
+    deque<char> d1(s1.begin(), s1.end());
+    deque<char> d2(s2.begin(), s2.end());
+    deque<char> d3(s3.begin(), s3.end());
+
+    string res;
+
+    while(!d1.empty() || !d2.empty() || !d3.empty()) {
+        // Pick next winner
+        char winner;
+        if(!d1.empty()) winner = d1.front();
+        else if(!d2.empty()) winner = d2.front();
+        else winner = d3.front();
+
+        res.push_back(winner);
+
+        // Remove winner from all lists where it is at front
+        if(!d1.empty() && d1.front() == winner) d1.pop_front();
+        if(!d2.empty() && d2.front() == winner) d2.pop_front();
+        if(!d3.empty() && d3.front() == winner) d3.pop_front();
+    }
+
+    cout << res << "\n";
+}
