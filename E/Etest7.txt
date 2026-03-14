@@ -1,0 +1,25 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    cin >> n;
+
+    vector<int> v(n);
+    int p;
+
+    for (int i = 0; i < 125; i++) {
+        cout << 1 << " " << n << endl;
+        cout.flush();
+
+        for (int j = 0; j < n; j++) cin >> v[j];
+        cin >> p;
+
+        if (p >= 70) break;
+    }
+
+    return 0;
+}
