@@ -1,0 +1,48 @@
+Problem B
+Bottle of New Port
+Time limit: 1 second
+A bottle of your favourite port, won at a programming competition.
+Picture by Reinier Schmiermann
+At the Bottles and Port Company, you produce and bottle only the finest of
+vintages. To satisfy the desires of your highly exclusive clientele, it is neces-
+sary to study what happens to your wines once a new bottle is opened. When
+that happens, liquids in the bottle immediately start evaporating. The alco-
+hol in the bottle evaporates at a different rate than the other liquids in the
+bottle, meaning that over time, the delicate balance of the port wine will be
+disturbed.
+Your goal is to compute how the alcohol percentage changes in the days after
+opening a fresh bottle. By placing the opened bottle in an advanced chemical
+apparatus, you are able to measure how fast each liquid in the bottle evapo-
+rates.
+Input
+The input consists of:
+• One line with an integer d (0 ≤ d ≤ 106), the number of days your bottle of new port has remained open.
+• One line with two integers a and o (1 ≤ a, o ≤ 1012), the initial volume of alcohol in the bottle and the
+initial total volume of other liquids in the bottle, both in μL.
+• One line with two integers ∆a and ∆o (0 ≤ ∆a, ∆o ≤ 1012), the evaporation rate of the alcohol and the
+evaporation rate of the other liquids in the bottle, both in μL/day.
+It is guaranteed that the bottle is not empty after leaving it open for d days (d · ∆a < a or d · ∆o < o).
+Output
+Output the alcohol percentage after leaving the bottle open for d days.
+Your answer should have an absolute or relative error of at most 10−6.
+Sample Input 1 Sample Output 1
+2
+3 8
+1 1
+14.2857142857143
+Sample Input 2 Sample Output 2
+5
+11 89
+2 1
+1.17647058823529
+SPAR26 Round 1 Problem B: Bottle of New Port 5
+Sample Input 3 Sample Output 3
+10
+10 40
+1 1
+0
+Sample Input 4 Sample Output 4
+10
+40 10
+0 3
+100
