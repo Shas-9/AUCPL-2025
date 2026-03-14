@@ -1,0 +1,56 @@
+Problem F
+Friendly Formation
+Time limit: 3 seconds
+Last year’s SPAR. For a short while, all was still fine. CC BY-SA 3.0
+by Stefan Krause on Wikimedia Commons
+This year, n players showed up for the Supreme Paintball Arena Rumble
+(SPAR), a large national contest in which a blue and red team battle for the
+national title. Some of the players that showed up know each other already,
+while others do not.
+At last year’s SPAR, this led to some unfortunate communication incidents,
+causing the entire event to be cut short: half of the blue team had somehow
+made their way to an adjacent field, and the red team miraculously managed
+to capture their own flag.
+This year’s organization has therefore decided that in both teams, each pair
+of players should already know each other. Additionally, to keep the game
+fair, all players should be assigned a team, and both teams should be equally
+large. Is it possible to split the group into two such teams?
+Input
+The input consists of:
+• One line with two integers n and m (2 ≤ n ≤ 106, 0 ≤ m ≤ 106), the number of players and the number
+of relations.
+• m lines, each with two integers a and b (1 ≤ a, b ≤ n, a 6 = b), indicating that players a and b already know
+each other.
+A relation between any pair of players will be listed at most once.
+Output
+If it is possible to split the group into two teams with the above requirements, then for each player i, output “r” if
+player i should join the red team, and “b” if player i should join the blue team. Otherwise, output “impossible”.
+If there are multiple valid solutions, you may output any one of them.
+Sample Input 1 Sample Output 1
+2 1
+1 2
+r
+b
+Sample Input 2 Sample Output 2
+4 3
+1 2
+3 1
+3 2
+impossible
+SPAR26 Round 1 Problem F: Friendly Formation 13
+Sample Input 3 Sample Output 3
+3 3
+1 2
+1 3
+2 3
+impossible
+Sample Input 4 Sample Output 4
+4 4
+1 2
+2 3
+3 4
+4 1
+r
+b
+b
+r

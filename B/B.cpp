@@ -16,6 +16,21 @@ int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
 
+    long long d;
+    long long a, o;
+    long long da, do_;
+
+    cin >> d;
+    cin >> a >> o;
+    cin >> da >> do_;
+
+    long long A = max(0LL, a - d * da);
+    long long O = max(0LL, o - d * do_);
+
+    long double result = 100.0L * (long double)A / (A + O);
+
+    cout << fixed << setprecision(15) << result << "\n";
+
     int tc = 1;
     // cin >> tc; //comment out if 1 case
     while(tc--) {

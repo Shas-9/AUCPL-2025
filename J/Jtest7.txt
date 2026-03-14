@@ -1,0 +1,57 @@
+Problem J
+Journal Publication
+Time limit: 4 seconds
+Another way to make every author feel equally appreciated is to superimpose their names.
+© , arXiv:2304.01393 [cs.DL], used non-commercially
+Both winning SPAR and publishing research papers are a team
+effort. And every member of his team wants to be appreciated.
+Every research paper has a list of authors at the top. Each author is
+listed using their full name, which might consist of several parts.
+To avoid arguments about the order of names, your team decided
+to just order the list of names in the following way:
+1. Pick a single name part for each author.
+2. Sort authors in non-descending order, comparing only the
+selected parts lexicographically.
+However, your team already submitted the draft for the paper be-
+fore you came up with this idea.
+You are given the list of authors as presented in the draft. Is it possible to pick name parts in a way that the list of
+authors in the draft is sorted?
+Input
+The input consists of:
+• One line with an integer n (1 ≤ n ≤ 105), the number of authors.
+• n lines (one for each author name), each with an integer p (1 ≤ p ≤ 10), the number of name parts, followed
+by p name parts.
+Each name part has at most 10 characters and consists of one English uppercase letter (A-Z), followed by only
+English lowercase letters (a-z).
+Output
+If it is possible to select a name part for each author such that the list is sorted, output for each author the selected
+name part. Otherwise, output “impossible”.
+If there are multiple valid solutions, you may output any one of them.
+Sample Input 1 Sample Output 1
+6
+2 Maria Douglas
+3 Ozzy Levi Carpenter
+3 Quentin Aaron Potter
+2 Christy Iglesias
+2 Mo Mansur
+3 Sam Marlon Scully
+impossible
+SPAR26 Round 1 Problem J: Journal Publication 21
+Sample Input 2 Sample Output 2
+4
+2 Maria Douglas
+3 Ozzy Levi Carpenter
+3 Quentin Aaron Potter
+3 Sam Marlon Scully
+Maria
+Ozzy
+Potter
+Scully
+Sample Input 3 Sample Output 3
+3
+1 Sam
+1 Sam
+1 Sam
+Sam
+Sam
+Sam

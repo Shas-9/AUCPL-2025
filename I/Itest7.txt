@@ -1,0 +1,54 @@
+Problem I
+Ingredient Intervals
+Time limit: 1 second
+The ingredient list of a stroopwafel, where only two
+percentages are shown.
+The label of a supermarket product describes the composition of its ingredients as
+follows:
+Ingredients: Chocolate (41.1%), Sugar, Peanuts (20%), Starch, Thick-
+ener, Glaze.
+In accordance with regulations from the Section of Product Assembly and Review
+(SPAR), the ingredients are listed in descending order by percentage, and the per-
+centages add up to 100%. While some ingredients have their percentage specified
+on the label, others do not.
+For each unspecified ingredient, determine the minimum and maximum possible
+percentage, given these conditions.
+Input
+The input consists of:
+• One line with an integer n (1 ≤ n ≤ 100), the number of ingredients on the label.
+• n lines, each starting with a string w (1 ≤ |w| ≤ 20), the name of the ingredient, optionally followed by a
+single number p (0 < p ≤ 100), the specified percentage of the ingredient.
+The ingredient names are unique and only consist of English lowercase letters (a-z). Percentages are given with
+at most one digit after the decimal point. There is at least one ingredient whose percentage is not specified. The
+input describes a valid label.
+Output
+Output the unspecified ingredients in the order given in the input. For each such ingredient, output its name,
+followed by its minimum and maximum percentages.
+Your answer should have an absolute or relative error of at most 10−6.
+Sample Input 1 Sample Output 1
+6
+chocolate 41.1
+sugar
+peanuts 20
+starch
+thickener
+glaze
+sugar 20 38.9
+starch 0 18.9
+thickener 0 9.45
+glaze 0 6.3
+Sample Input 2 Sample Output 2
+1
+water
+water 100 100
+SPAR26 Round 1 Problem I: Ingredient Intervals 19
+Sample Input 3 Sample Output 3
+4
+flour
+milk
+egg
+salt
+flour 25 100
+milk 0 50
+egg 0 33.33333333
+salt 0 25

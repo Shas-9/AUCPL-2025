@@ -16,6 +16,17 @@ int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
 
+    ll me, him;
+    cin >> him >> me;
+
+    if (me > him) {
+        cout << him + 1 << "\n";
+    } else if (me == him) {
+        cout << me << "\n";
+    } else {
+        cout << 0 << "\n";
+    }
+
     int tc = 1;
     // cin >> tc; //comment out if 1 case
     while(tc--) {
