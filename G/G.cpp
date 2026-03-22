@@ -13,21 +13,25 @@ void solve() {
 }
 
 struct DSU {
-    vector<int> p;
-    DSU(int n) {
-        p.resize(n);
-        iota(p.begin(), p.end(), 0);
+    vector<int> p, r;
+    DSU(int n) { 
+        p.resize(n); 
+        iota(p.begin(), p.end(), 0); 
+        r.assign(n, 0); 
     }
-    int find(int x){
-        return p[x]==x ? x : p[x]=find(p[x]);
+    int find(int x) { 
+        return p[x] == x ? x : p[x] = find(p[x]); 
     }
-    void unite(int a,int b){
-        a=find(a); b=find(b);
-        if(a!=b) p[b]=a;
+    void unite(int a, int b) {
+        a = find(a); b = find(b);
+        if(a == b) return;
+        if(r[a] < r[b]) swap(a,b);
+        p[b] = a;
+        if(r[a] == r[b]) r[a]++;
     }
 };
 
-int main(){
+int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
 
@@ -35,14 +39,12 @@ int main(){
     cin >> n;
     cin.ignore();
 
-    unordered_map<string,int> id;
-    id.reserve(2*n);
+    vector<pair<string,string>> relations(n);
+    unordered_map<string, vector<int>> name_to_rel;
 
-    vector<pair<int,int>> edges;
-
-    for(int i=0;i<n;i++){
+    for(int i = 0; i < n; i++) {
         string line;
-        getline(cin,line);
+        getline(cin, line);
 
         int comma = line.find(',');
         string child = line.substr(0, comma);
@@ -50,27 +52,31 @@ int main(){
         int pos = line.find("son of ");
         string father = line.substr(pos + 7);
 
-        if(!id.count(child)) id[child] = id.size();
-        if(!id.count(father)) id[father] = id.size();
+        relations[i] = {child, father};
 
-        edges.push_back({id[child], id[father]});
+        name_to_rel[child].push_back(i);
+        name_to_rel[father].push_back(i);
     }
 
-    DSU dsu(id.size());
+    DSU dsu(n);
 
-    for(auto &e:edges)
-        dsu.unite(e.first, e.second);
-
-    int root = dsu.find(edges[0].first);
-
-    for(auto &p:id){
-        if(dsu.find(p.second) != root){
-            cout << "impossible\n";
-            return 0;
+    // unite all relations that share a name
+    for(auto &[name, vec] : name_to_rel) {
+        for(int i = 1; i < vec.size(); i++) {
+            dsu.unite(vec[0], vec[i]);
         }
     }
 
-    cout << "possible\n";
+    // check if all relations are in one component
+    int root = dsu.find(0);
+    bool possible = true;
+    for(int i = 1; i < n; i++) {
+        if(dsu.find(i) != root) {
+            possible = false;
+            break;
+        }
+    }
 
+    cout << (possible ? "possible" : "impossible") << "\n";
     return 0;
 }

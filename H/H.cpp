@@ -13,36 +13,41 @@ void solve() {
 }
 
 int main() {
-    ios_base::sync_with_stdio(0);
+    ios::sync_with_stdio(0);
     cin.tie(0);
+
     string s1, s2, s3;
     cin >> s1 >> s2 >> s3;
 
-    int i1=0, i2=0, i3=0;
-    string res;
+    int n = (s1.size() + s2.size() + s3.size()) / 2;
 
-    while(i1 < s1.size() || i2 < s2.size() || i3 < s3.size()) {
-        set<char> possible = {'1','2','3'};
+    int p1 = 0, p2 = 0, p3 = 0;
+    string ans;
+    ans.reserve(n);
 
-        if(i1 < s1.size()) possible.erase(s1[i1]);
-        if(i2 < s2.size()) possible.erase(s2[i2]);
-        if(i3 < s3.size()) possible.erase(s3[i3]);
+    for (int i = 0; i < n; i++) {
+        bool ok1 = (p2 < (int)s2.size() && s2[p2] == '1') &&
+                   (p3 < (int)s3.size() && s3[p3] == '1');
 
-        char winner = *possible.begin();
-        res.push_back(winner);
+        bool ok2 = (p1 < (int)s1.size() && s1[p1] == '2') &&
+                   (p3 < (int)s3.size() && s3[p3] == '2');
 
-        if(winner != '1' && i1 < s1.size() && s1[i1] == winner) i1++;
-        if(winner != '2' && i2 < s2.size() && s2[i2] == winner) i2++;
-        if(winner != '3' && i3 < s3.size() && s3[i3] == winner) i3++;
+        bool ok3 = (p1 < (int)s1.size() && s1[p1] == '3') &&
+                   (p2 < (int)s2.size() && s2[p2] == '3');
+
+        if (ok1) {
+            ans.push_back('1');
+            p2++; p3++;
+        } else if (ok2) {
+            ans.push_back('2');
+            p1++; p3++;
+        } else if (ok3) {
+            ans.push_back('3');
+            p1++; p2++;
+        }
     }
 
-    cout << res << "\n";
-
-    int tc = 1;
-    // cin >> tc; //comment out if 1 case
-    while(tc--) {
-        solve();
-    }
+    cout << ans << "\n";
 
     return 0;
 }

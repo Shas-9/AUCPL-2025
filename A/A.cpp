@@ -13,14 +13,45 @@ void solve() {
 }
 
 int main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
+    int n, l, h;
+    cin >> n >> l >> h;
+    vector<int> a(n);
+    for (auto& x : a) cin >> x;
 
-    int tc = 1;
-    // cin >> tc; //comment out if 1 case
-    while(tc--) {
-        solve();
+    auto validShifts = [&](int note) {
+        set<int> s;
+        for (int oct = -10; oct <= 10; oct++) {
+            int shifted = note + oct * 12;
+            if (shifted >= l && shifted <= h) s.insert(oct);
+        }
+        return s;
+    };
+
+    vector<int> dp(n + 1, 0);
+    dp[0] = INT_MAX;
+
+    for (int i = 1; i <= n; i++) {
+        dp[i] = 0;
+        set<int> common;
+        for (int j = i - 1; j >= 0; j--) {
+            set<int> vs = validShifts(a[j]);
+            if (j == i - 1) {
+                common = vs;
+            } else {
+                set<int> inter;
+                set_intersection(common.begin(), common.end(),
+                                 vs.begin(), vs.end(),
+                                 inserter(inter, inter.begin()));
+                common = inter;
+            }
+            if (common.empty()) break;
+            if (dp[j] > 0 || j == 0) {
+                int segLen = i - j;
+                int candidate = min(dp[j], segLen);
+                dp[i] = max(dp[i], candidate);
+            }
+        }
     }
 
-    return 0;
+    cout << dp[n] << endl;
 }

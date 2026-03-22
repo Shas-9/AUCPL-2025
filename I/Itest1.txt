@@ -1,0 +1,7 @@
+6
+chocolate 41.1
+sugar
+peanuts 20
+starch
+thickener
+glaze
