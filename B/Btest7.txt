@@ -1,0 +1,84 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+const int INF = 1e9;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+
+    // dp[cur][prev]
+    vector<vector<int>> dp(2, vector<int>(2, INF)), new_dp;
+
+    // Initial (i = 0), prevprev = x[-1] = 0
+    for (int cur = 0; cur <= 1; cur++) {
+        // Check s[0]
+        if (s[0] == '#' && cur != 1) continue;
+        if ((s[0] == '.' || isdigit(s[0])) && cur != 0) continue;
+
+        dp[cur][0] = cur; // prev = x[-1] = 0
+    }
+
+    for (int i = 1; i < n; i++) {
+        new_dp.assign(2, vector<int>(2, INF));
+
+        for (int prev = 0; prev <= 1; prev++) {
+            for (int prevprev = 0; prevprev <= 1; prevprev++) {
+                if (dp[prev][prevprev] == INF) continue;
+
+                for (int cur = 0; cur <= 1; cur++) {
+
+                    // 1. Check current cell
+                    if (s[i] == '#' && cur != 1) continue;
+                    if ((s[i] == '.' || isdigit(s[i])) && cur != 0) continue;
+
+                    // 2. Check constraint from s[i-1]
+                    if (s[i-1] == '.') {
+                        if (!(prev == 0 && prevprev == 0 && cur == 0)) continue;
+                    }
+                    else if (isdigit(s[i-1])) {
+                        int d = s[i-1] - '0';
+                        if (prev != 0) continue;
+                        if (prevprev + cur != d) continue;
+                    }
+
+                    new_dp[cur][prev] = min(
+                        new_dp[cur][prev],
+                        dp[prev][prevprev] + cur
+                    );
+                }
+            }
+        }
+
+        dp = new_dp;
+    }
+
+    int ans = INF;
+
+    // Final check for last cell
+    for (int prev = 0; prev <= 1; prev++) {
+        for (int prevprev = 0; prevprev <= 1; prevprev++) {
+            if (dp[prev][prevprev] == INF) continue;
+
+            bool ok = true;
+
+            if (s[n-1] == '.') {
+                if (!(prev == 0 && prevprev == 0)) ok = false;
+            }
+            else if (isdigit(s[n-1])) {
+                int d = s[n-1] - '0';
+                if (!(prev == 0 && prevprev == d)) ok = false;
+            }
+
+            if (ok) ans = min(ans, dp[prev][prevprev]);
+        }
+    }
+
+    cout << ans << "\n";
+    return 0;
+}
