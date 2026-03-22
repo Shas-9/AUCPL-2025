@@ -12,9 +12,100 @@ void solve() {
     
 }
 
+const int MAXN = 500005;
+const ll NEG_INF = -1e18;
+
+struct Node {
+    ll sum, max1, max2;
+    int cntMax;
+};
+
+Node tree[4 * MAXN];
+int n, q;
+
+void pull(int v) {
+    auto &L = tree[2*v], &R = tree[2*v+1], &P = tree[v];
+    P.sum = L.sum + R.sum;
+    if (L.max1 == R.max1) {
+        P.max1 = L.max1;
+        P.cntMax = L.cntMax + R.cntMax;
+        P.max2 = max(L.max2, R.max2);
+    } else if (L.max1 > R.max1) {
+        P.max1 = L.max1; P.cntMax = L.cntMax;
+        P.max2 = max(L.max2, R.max1);
+    } else {
+        P.max1 = R.max1; P.cntMax = R.cntMax;
+        P.max2 = max(L.max1, R.max2);
+    }
+}
+
+void applyChmin(int v, ll x) {
+    if (x >= tree[v].max1) return;
+    tree[v].sum -= (tree[v].max1 - x) * (ll)tree[v].cntMax;
+    tree[v].max1 = x;
+}
+
+void push(int v) {
+    applyChmin(2*v,   tree[v].max1);
+    applyChmin(2*v+1, tree[v].max1);
+}
+
+void build(int v, int l, int r, ll* a) {
+    if (l == r) {
+        tree[v] = {a[l], a[l], NEG_INF, 1};
+        return;
+    }
+    int mid = (l + r) / 2;
+    build(2*v, l, mid, a);
+    build(2*v+1, mid+1, r, a);
+    pull(v);
+}
+
+void updateChmin(int v, int l, int r, int ql, int qr, ll x) {
+    if (x >= tree[v].max1 || ql > r || qr < l) return;
+    if (ql <= l && r <= qr && x > tree[v].max2) {
+        applyChmin(v, x);
+        return;
+    }
+    push(v);
+    int mid = (l + r) / 2;
+    updateChmin(2*v, l, mid, ql, qr, x);
+    updateChmin(2*v+1, mid+1, r, ql, qr, x);
+    pull(v);
+}
+
+ll querySum(int v, int l, int r, int ql, int qr) {
+    if (ql > r || qr < l) return 0;
+    if (ql <= l && r <= qr) return tree[v].sum;
+    push(v);
+    int mid = (l + r) / 2;
+    return querySum(2*v, l, mid, ql, qr)
+         + querySum(2*v+1, mid+1, r, ql, qr);
+}
+
+ll a[MAXN];
+
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
+
+    cin >> n >> q;
+    for (int i = 1; i <= n; i++) cin >> a[i];
+    build(1, 1, n, a);
+
+    while (q--) {
+        string op;
+        cin >> op;
+        if (op == "DRAIN") {
+            int l, r; ll x;
+            cin >> l >> r >> x;
+            updateChmin(1, 1, n, l, r, x);
+        } else {
+            int l, r;
+            cin >> l >> r;
+            cout << querySum(1, 1, n, l, r) << "\n";
+        }
+    }
 
     int tc = 1;
     // cin >> tc; //comment out if 1 case
