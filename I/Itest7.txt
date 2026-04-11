@@ -1,0 +1,62 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+using ll = long long;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int N;
+    cin >> N;
+
+    vector<vector<pair<int, ll>>> adj(N);
+
+    for (int i = 0; i < N - 1; i++) {
+        int u, v;
+        ll w;
+        cin >> u >> v >> w;
+        adj[u].push_back({v, w});
+    }
+
+    vector<ll> subtree(N, 0);
+
+    // DFS to compute subtree sums
+    function<void(int)> dfs = [&](int u) {
+        for (auto &[v, w] : adj[u]) {
+            dfs(v);
+            subtree[u] += w + subtree[v];
+        }
+    };
+
+    dfs(0);
+
+    // Prepare (sum, node)
+    vector<pair<ll, int>> nodes;
+    for (int i = 0; i < N; i++) {
+        nodes.push_back({subtree[i], i});
+    }
+
+    sort(nodes.begin(), nodes.end(), [](auto &a, auto &b) {
+        if (a.first == b.first) return a.second < b.second;
+        return a.first < b.first;
+    });
+
+    int Q;
+    cin >> Q;
+
+    while (Q--) {
+        ll K;
+        cin >> K;
+
+        auto it = lower_bound(nodes.begin(), nodes.end(), make_pair(K, 0));
+
+        if (it == nodes.end()) {
+            cout << -1 << '\n';
+        } else {
+            cout << it->second << '\n';
+        }
+    }
+
+    return 0;
+}
