@@ -1,0 +1,105 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+using ll = __int128_t;
+
+// Fraction structure
+struct Frac {
+    ll num, den; // num / den
+
+    Frac(ll n = 0, ll d = 1) : num(n), den(d) {
+        normalize();
+    }
+
+    void normalize() {
+        if (den < 0) num = -num, den = -den;
+        ll g = gcd(abs(num), den);
+        num /= g;
+        den /= g;
+    }
+
+    static ll gcd(ll a, ll b) {
+        while (b) {
+            ll t = a % b;
+            a = b;
+            b = t;
+        }
+        return a;
+    }
+
+    // Addition
+    Frac operator+(const Frac &other) const {
+        Frac res(num * other.den + other.num * den, den * other.den);
+        res.normalize();
+        return res;
+    }
+
+    // Division by integer
+    Frac operator/(ll x) const {
+        Frac res(num, den * x);
+        res.normalize();
+        return res;
+    }
+};
+
+// Convert __int128 to string
+string to_string128(ll x) {
+    if (x == 0) return "0";
+    bool neg = x < 0;
+    if (neg) x = -x;
+    string s;
+    while (x) {
+        s.push_back('0' + (int)(x % 10));
+        x /= 10;
+    }
+    if (neg) s.push_back('-');
+    reverse(s.begin(), s.end());
+    return s;
+}
+
+int n, m;
+vector<vector<int>> adj;
+vector<bool> vis;
+vector<Frac> dp;
+
+Frac dfs(int u) {
+    if (vis[u]) return dp[u];
+    vis[u] = true;
+
+    if (adj[u].empty()) {
+        return dp[u] = Frac(0, 1);
+    }
+
+    if (adj[u].size() == 1) {
+        Frac res = dfs(adj[u][0]);
+        return dp[u] = res + Frac(1, 1);
+    }
+
+    // size == 2
+    Frac a = dfs(adj[u][0]);
+    Frac b = dfs(adj[u][1]);
+    Frac avg = (a + b) / 2;
+    return dp[u] = avg + Frac(1, 1);
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    cin >> n >> m;
+    adj.resize(n + 1);
+
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+    }
+
+    vis.assign(n + 1, false);
+    dp.resize(n + 1);
+
+    Frac ans = dfs(1);
+
+    cout << to_string128(ans.num) << "/" << to_string128(ans.den) << "\n";
+    return 0;
+}
