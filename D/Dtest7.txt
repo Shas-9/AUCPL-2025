@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, q;
+    cin >> n >> q;
+    
+    // best_vp[c] = smallest VP ID with clearance tier c (0 if none)
+    const int MAXC = 100001;
+    vector<int> best_vp(MAXC, 0);
+    
+    for (int i = 1; i <= n; i++) {
+        int c;
+        cin >> c;
+        // Among VPs with same tier c, keep smallest ID
+        if (best_vp[c] == 0) {
+            best_vp[c] = i;
+        }
+        // else: since we process in order 1..n, first one is already smallest ID
+    }
+    
+    while (q--) {
+        int d;
+        cin >> d;
+        
+        // Find all divisors of d, pick the largest divisor c where best_vp[c] != 0
+        int best_tier = 0, best_id = 0;
+        for (int c = 1; (long long)c * c <= d; c++) {
+            if (d % c == 0) {
+                if (best_vp[c]) {
+                    if (c > best_tier) {
+                        best_tier = c;
+                        best_id = best_vp[c];
+                    }
+                }
+                int other = d / c;
+                if (other != c && best_vp[other]) {
+                    if (other > best_tier) {
+                        best_tier = other;
+                        best_id = best_vp[other];
+                    }
+                }
+            }
+        }
+        
+        cout << best_id << "\n";
+    }
+    
+    return 0;
+}
