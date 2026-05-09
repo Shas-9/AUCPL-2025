@@ -9,7 +9,16 @@ typedef pair<int, int> pii;
 typedef vector<int> vi;
 
 void solve() {
-    
+    int N;
+    cin >> N;
+    vector<int> weights(N);
+    for (auto &w: weights) cin >> w;
+    int val = 0;
+    for (int i = 0; i < N - 1; ++i) {
+        int diff = abs(weights[i] - weights[i + 1]);
+        val = gcd(val, diff);
+    }
+    cout << val << '\n';
 }
 
 int main() {
