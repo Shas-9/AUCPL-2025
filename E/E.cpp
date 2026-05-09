@@ -7,34 +7,9 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> pii;
 typedef vector<int> vi;
-struct node {
-    vector<int> children;
-    int fertility;
-};
-using graph = vector<node>;
-
-long long helper(graph &canals, int idx) {
-    long long c_max = 0;
-    for (auto child : canals[idx].children) {
-        c_max = max(c_max, helper(canals, child));
-    }
-    return c_max + canals[idx].fertility;
-}
 
 void solve() {
-    int N;
-    cin >> N;
-    graph canals(N + 1);
-    for (int i = 1; i <= N; ++i) {
-        cin >> canals[i].fertility;
-    }
-    for (int i = 1; i < N; ++i) {
-        int u, v;
-        cin >> u >> v;
-        canals[u].children.push_back(v);
-    }
-
-    cout << helper(canals, 1) << '\n';
+    
 }
 
 int main() {

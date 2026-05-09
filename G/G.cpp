@@ -9,28 +9,7 @@ typedef pair<int, int> pii;
 typedef vector<int> vi;
 
 void solve() {
-    int N;
-    cin >> N;
-    vector<int> years(N);
-    for (int i = 0; i < N; ++i) {
-        cin >> years[i];
-    }
-
-    vector<bool> sieve(3101);
-    for (int i = 2; i <= 3100; ++i) {
-        if (sieve[i]) continue;
-        for (int j = 2; i * j <= 3100; ++j) {
-            sieve[i * j] = true;
-        }
-    }
-
-    for (int year : years) {
-        if (sieve[year]) {
-            cout << "No\n";
-        } else {
-            cout << "Yes\n";
-        }
-    }
+    
 }
 
 int main() {
