@@ -1,0 +1,68 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, q, pos;
+    cin >> n >> q >> pos;
+
+    // Store all dirty zones
+    set<int> dirty;
+    for (int i = 1; i <= n; i++) {
+        dirty.insert(i);
+    }
+
+    while (q--) {
+        string cmd;
+        cin >> cmd;
+
+        if (cmd == "C") {
+            // Clean current zone
+            dirty.erase(pos);
+        }
+
+        else if (cmd == "L") {
+            // Closest dirty zone strictly to the left
+            auto it = dirty.lower_bound(pos);
+
+            if (it != dirty.begin()) {
+                --it;
+                pos = *it;
+            }
+        }
+
+        else if (cmd == "R") {
+            // Closest dirty zone strictly to the right
+            auto it = dirty.upper_bound(pos);
+
+            if (it != dirty.end()) {
+                pos = *it;
+            }
+        }
+
+        else if (cmd == "QL") {
+            auto it = dirty.lower_bound(pos);
+
+            if (it == dirty.begin()) {
+                cout << -1 << '\n';
+            } else {
+                --it;
+                cout << *it << '\n';
+            }
+        }
+
+        else if (cmd == "QR") {
+            auto it = dirty.upper_bound(pos);
+
+            if (it == dirty.end()) {
+                cout << -1 << '\n';
+            } else {
+                cout << *it << '\n';
+            }
+        }
+    }
+
+    return 0;
+}
