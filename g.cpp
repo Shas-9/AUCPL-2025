@@ -112,11 +112,9 @@ int main() {
 
         int mid = (l + r) / 2;
 
-        self(self, p * 2, l, mid,
-             ql, qr, target, cost);
+        self(self, p * 2, l, mid,ql, qr, target, cost);
 
-        self(self, p * 2 + 1, mid + 1, r,
-             ql, qr, target, cost);
+        self(self, p * 2 + 1, mid + 1, r,ql, qr, target, cost);
     };
 
     // add edges from one node to a tree range.
@@ -134,11 +132,9 @@ int main() {
 
         int mid = (l + r) / 2;
 
-        self(self, p * 2, l, mid,
-             ql, qr, source, cost);
+        self(self, p * 2, l, mid,ql, qr, source, cost);
 
-        self(self, p * 2 + 1, mid + 1, r,
-             ql, qr, source, cost);
+        self(self, p * 2 + 1, mid + 1, r,ql, qr, source, cost);
     };
 
 
@@ -154,52 +150,35 @@ int main() {
 
         cin >> type >> a >> L >> R >> C;
 
-        int left =
-            lower_bound(f.begin(), f.end(), L) - f.begin();
+        int left = lower_bound(f.begin(), f.end(), L) - f.begin();
 
-        int right =
-            upper_bound(f.begin(), f.end(), R) - f.begin() - 1;
+        int right = upper_bound(f.begin(), f.end(), R) - f.begin() - 1;
 
 
         if (left > right)
             continue;
 
         if (type == 0) {
-
             ll realL = a;
             ll realR = L;
             ll Y = R;
 
-            left =
-                lower_bound(f.begin(), f.end(), realL) - f.begin();
+            left = lower_bound(f.begin(), f.end(), realL) - f.begin();
 
-            right =
-                upper_bound(f.begin(), f.end(), realR) - f.begin() - 1;
+            right = upper_bound(f.begin(), f.end(), realR) - f.begin() - 1;
 
             if (left > right)
                 continue;
 
             int y = getIndex(Y);
 
-            addRangeToPoint(
-                addRangeToPoint,
-                1, 0, n - 1,
-                left, right,
-                y, C
-            );
+            addRangeToPoint(addRangeToPoint,1, 0, n - 1,left, right,y, C);
         }
         else {
-
             ll X = a;
-
             int x = getIndex(X);
 
-            addPointToRange(
-                addPointToRange,
-                1, 0, n - 1,
-                left, right,
-                x, C
-            );
+            addPointToRange(addPointToRange,1, 0, n - 1,left, right,x, C);
         }
     }
 
