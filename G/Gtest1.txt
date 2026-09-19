@@ -1,0 +1,8 @@
+5 6
+Cooking Roasting Grilling Frying Toasting
+2 Cooking Grilling
+1 Frying
+2 Roasting Toasting
+2 Roasting Grilling
+2 Roasting Frying
+1 Toasting

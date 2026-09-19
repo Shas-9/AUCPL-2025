@@ -1,0 +1,7 @@
+6 5
+MakingA MakingB MakingC MakingD MakingE MakingF
+2 MakingA MakingC
+2 MakingB MakingD
+2 MakingE MakingD
+2 MakingC MakingF
+2 MakingE MakingF

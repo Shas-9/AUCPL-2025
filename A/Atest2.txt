@@ -1,0 +1,15 @@
+3 14 1
+QL
+QR
+R
+C
+L
+C
+QL
+QR
+L
+R
+C
+C
+QL
+QR

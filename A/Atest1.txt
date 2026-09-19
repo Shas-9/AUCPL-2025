@@ -1,0 +1,12 @@
+10 11 5
+C
+R
+QL
+QR
+C
+L
+QR
+L
+QL
+QR
+C

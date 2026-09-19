@@ -1,0 +1,7 @@
+5 5
+Common1 Common2 Common3 Unique1 Unique2
+1 Unique1
+1 Unique2
+2 Common1 Common2
+2 Common2 Common3
+2 Common3 Common1

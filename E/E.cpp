@@ -12,23 +12,20 @@ void solve() {
     
 }
 
-#include <bits/stdc++.h>
-using namespace std;
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
 
     int n;
     cin >> n;
     string s;
     cin >> s;
 
-    long long ops = 0;
+    ll ops = 0;
 
     for (int i = 0; i < n - 1; i++) {
         if (s[i] == 'T') {
-            // Must flip (i, i+1) — only way to fix coin i
             s[i] = 'H';
             s[i + 1] = (s[i + 1] == 'H') ? 'T' : 'H';
             ops++;
@@ -40,13 +37,6 @@ int main() {
     } else {
         cout << ops << "\n";
     }
-
-    return 0;
-}
-
-int main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
 
     int tc = 1;
     // cin >> tc; //comment out if 1 case
