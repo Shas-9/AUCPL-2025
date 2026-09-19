@@ -1,7 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-using ll = long long;
+#define rep(i, a, b) for(int i = a; i < (b); ++i) 
+#define all(x) begin(x), end(x)
+#define sz(x) (int)(x).size()
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef vector<int> vi;
+
+void solve() {
+    
+}
 
 struct Edge {
     int u, v;
@@ -9,8 +18,8 @@ struct Edge {
 };
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    cin.tie(0)->sync_with_stdio(0);
+    cin.exceptions(cin.failbit);
 
     int n, m;
     cin >> n >> m;
@@ -32,12 +41,11 @@ int main() {
     vector<ll> dist(n + 1, NEG_INF);
     dist[1] = 0;
 
-    // Bellman-Ford, but maximizing instead of minimizing.
+    // maximise
     for (int i = 0; i < n - 1; i++) {
         bool changed = false;
 
         for (const Edge& e : edges) {
-            // Cannot use an edge from an unreachable vertex.
             if (dist[e.u] == NEG_INF)
                 continue;
 
@@ -47,19 +55,16 @@ int main() {
             }
         }
 
-        // No more improvements -> no reachable positive cycle
-        // can affect any distances.
+
         if (!changed)
             break;
     }
 
-    // unsafe[v] = true means v is reachable from a reachable
-    // positive cycle.
+    // unsafe[v] = true means v is part of apositive cycle
     vector<bool> unsafe(n + 1, false);
     queue<int> q;
 
-    // If an edge can still be relaxed after n-1 iterations,
-    // its destination is affected by a positive cycle.
+
     for (const Edge& e : edges) {
         if (dist[e.u] == NEG_INF)
             continue;
@@ -72,7 +77,7 @@ int main() {
         }
     }
 
-    // Every vertex reachable from an unsafe vertex is also unsafe.
+    // vertexes from unsafe are also unsafe
     while (!q.empty()) {
         int u = q.front();
         q.pop();
@@ -85,7 +90,6 @@ int main() {
         }
     }
 
-    // Output answer for every room.
     for (int i = 1; i <= n; i++) {
         if (dist[i] == NEG_INF) {
             cout << "UNREACHABLE\n";

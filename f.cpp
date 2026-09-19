@@ -1,6 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#define rep(i, a, b) for(int i = a; i < (b); ++i) 
+#define all(x) begin(x), end(x)
+#define sz(x) (int)(x).size()
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef vector<int> vi;
+
 int cnt[10];
 int hourDigits;
 int totalDigits;
@@ -14,20 +21,19 @@ bool backtrack(int pos, string &cur) {
         return true;
     }
 
-    // Try digits from smallest to largest.
     for (int d = 0; d <= 9; d++) {
         if (cnt[d] == 0)
             continue;
 
-        // Hours cannot have a leading zero.
+        // no leading 0
         if (pos == 0 && d == 0)
             continue;
 
-        // Tens digit of minutes must be 0-5.
+        // 0-5
         if (pos == hourDigits && d > 5)
             continue;
 
-        // Tens digit of seconds must be 0-5.
+        // 0-5
         if (pos == hourDigits + 2 && d > 5)
             continue;
 
@@ -48,8 +54,8 @@ bool backtrack(int pos, string &cur) {
 }
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    cin.tie(0)->sync_with_stdio(0);
+    cin.exceptions(cin.failbit);
 
     string hours, minutes, seconds;
     cin >> hours >> minutes >> seconds;
