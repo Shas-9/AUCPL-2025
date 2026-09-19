@@ -1,9 +1,18 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-using ll = long long;
+#define rep(i, a, b) for(int i = a; i < (b); ++i) 
+#define all(x) begin(x), end(x)
+#define sz(x) (int)(x).size()
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef vector<int> vi;
 
-const ll INF = (1LL << 62);
+void solve() {
+    
+}
+
+const ll INF = LLONG_MAX;
 
 struct Edge {
     int to;
@@ -24,23 +33,6 @@ int main() {
     ll s, t;
     cin >> s >> t;
 
-    /*
-        Original frequency nodes:
-            0 ... n-1
-
-        We build two segment trees.
-
-        inTree:
-            child -> parent
-        Used for:
-            range -> point
-
-        outTree:
-            parent -> child
-        Used for:
-            point -> range
-    */
-
     int maxNodes = 5 * n + 10;
     vector<vector<Edge>> g(maxNodes);
 
@@ -53,15 +45,11 @@ int main() {
         g[u].push_back({v, w});
     };
 
-    // ------------------------------------------------------------
-    // Segment tree for RANGE -> POINT
-    // Edges go child -> parent.
-    // ------------------------------------------------------------
+
     auto buildIn = [&](auto &&self, int p, int l, int r) -> void {
         inTree[p] = nxt++;
 
         if (l == r) {
-            // Original frequency can enter its segment-tree leaf.
             addEdge(l, inTree[p], 0);
             return;
         }
@@ -75,15 +63,10 @@ int main() {
         addEdge(inTree[p * 2 + 1], inTree[p], 0);
     };
 
-    // ------------------------------------------------------------
-    // Segment tree for POINT -> RANGE
-    // Edges go parent -> child.
-    // ------------------------------------------------------------
     auto buildOut = [&](auto &&self, int p, int l, int r) -> void {
         outTree[p] = nxt++;
 
         if (l == r) {
-            // Segment-tree leaf can exit to the real frequency.
             addEdge(outTree[p], l, 0);
             return;
         }
@@ -100,14 +83,6 @@ int main() {
     buildIn(buildIn, 1, 0, n - 1);
     buildOut(buildOut, 1, 0, n - 1);
 
-    // ------------------------------------------------------------
-    // Manual recalibration.
-    //
-    // Only adjacent frequencies are necessary because:
-    //
-    // (f[i+1]-f[i]) + ... + (f[j]-f[j-1])
-    // = f[j]-f[i]
-    // ------------------------------------------------------------
 
     for (int i = 0; i + 1 < n; ++i) {
         ll w = f[i + 1] - f[i];
@@ -116,13 +91,6 @@ int main() {
         addEdge(i + 1, i, w);
     }
 
-    // ------------------------------------------------------------
-    // Add:
-    //
-    //      every point in [ql,qr] -> target
-    //
-    // using O(log n) edges.
-    // ------------------------------------------------------------
 
     auto rangeToPoint =
         [&](auto &&self,
@@ -140,24 +108,10 @@ int main() {
 
         int mid = (l + r) / 2;
 
-        self(self,
-             p * 2, l, mid,
-             ql, qr,
-             target, cost);
+        self(self,p * 2, l, mid,ql, qr,target, cost);
 
-        self(self,
-             p * 2 + 1, mid + 1, r,
-             ql, qr,
-             target, cost);
+        self(self,p * 2 + 1, mid + 1, r,ql, qr,target, cost);
     };
-
-    // ------------------------------------------------------------
-    // Add:
-    //
-    //      source -> every point in [ql,qr]
-    //
-    // using O(log n) edges.
-    // ------------------------------------------------------------
 
     auto pointToRange =
         [&](auto &&self,
@@ -175,111 +129,58 @@ int main() {
 
         int mid = (l + r) / 2;
 
-        self(self,
-             p * 2, l, mid,
-             ql, qr,
-             source, cost);
+        self(self,p * 2, l, mid,ql, qr,source, cost);
 
-        self(self,
-             p * 2 + 1, mid + 1, r,
-             ql, qr,
-             source, cost);
+        self(self,p * 2 + 1, mid + 1, r,ql, qr,source, cost);
     };
 
     auto getIndex = [&](ll x) -> int {
         return lower_bound(f.begin(), f.end(), x) - f.begin();
     };
 
-    // ------------------------------------------------------------
-    // Read modules
-    // ------------------------------------------------------------
-
     for (int i = 0; i < m; ++i) {
         int type;
         cin >> type;
 
         if (type == 0) {
-            /*
-                Compressor:
-
-                    0 L R Y C
-
-                Any stable frequency in [L,R]
-                can go to Y for cost C.
-            */
-
             ll L, R, Y, C;
             cin >> L >> R >> Y >> C;
 
-            int ql =
-                lower_bound(f.begin(), f.end(), L)
-                - f.begin();
+            int ql =lower_bound(f.begin(), f.end(), L)- f.begin();
 
-            int qr =
-                upper_bound(f.begin(), f.end(), R)
-                - f.begin() - 1;
+            int qr =upper_bound(f.begin(), f.end(), R)- f.begin() - 1;
 
             if (ql > qr)
                 continue;
 
             int y = getIndex(Y);
 
-            rangeToPoint(
-                rangeToPoint,
-                1, 0, n - 1,
-                ql, qr,
-                y, C
-            );
+            rangeToPoint(rangeToPoint,1, 0, n - 1,ql, qr,y, C);
         }
         else {
-            /*
-                Expander:
-
-                    1 X L R C
-
-                X can go to any stable frequency
-                in [L,R] for cost C.
-            */
-
             ll X, L, R, C;
             cin >> X >> L >> R >> C;
 
-            int ql =
-                lower_bound(f.begin(), f.end(), L)
-                - f.begin();
+            int ql = lower_bound(f.begin(), f.end(), L)- f.begin();
 
-            int qr =
-                upper_bound(f.begin(), f.end(), R)
-                - f.begin() - 1;
+            int qr = upper_bound(f.begin(), f.end(), R)- f.begin() - 1;
 
             if (ql > qr)
                 continue;
 
             int x = getIndex(X);
 
-            pointToRange(
-                pointToRange,
-                1, 0, n - 1,
-                ql, qr,
-                x, C
-            );
+            pointToRange(pointToRange,1, 0, n - 1,ql, qr,x, C);
         }
     }
 
-    // ------------------------------------------------------------
-    // Dijkstra
-    // ------------------------------------------------------------
-
+    // dijkstra
     int start = getIndex(s);
     int target = getIndex(t);
 
     vector<ll> dist(nxt, INF);
 
-    priority_queue<
-        pair<ll, int>,
-        vector<pair<ll, int>>,
-        greater<pair<ll, int>>
-    > pq;
+    priority_queue<pair<ll, int>,vector<pair<ll, int>>,greater<pair<ll, int>>> pq;
 
     dist[start] = 0;
     pq.push({0, start});
