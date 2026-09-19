@@ -20,8 +20,8 @@ struct Edge {
 };
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    cin.tie(0)->sync_with_stdio(0);
+    cin.exceptions(cin.failbit);
 
     int n, m;
     cin >> n >> m;
@@ -210,11 +210,7 @@ int main() {
     // Dijkstra
     vector<ll> dist(nxt, INF);
 
-    priority_queue<
-        pair<ll, int>,
-        vector<pair<ll, int>>,
-        greater<pair<ll, int>>
-    > pq;
+    priority_queue<pair<ll, int>, vector<pair<ll, int>>, greater<pair<ll, int>>> pq;
 
     dist[start] = 0;
     pq.push({0, start});
