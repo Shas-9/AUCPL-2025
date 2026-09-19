@@ -76,7 +76,7 @@ int main() {
     // dp[i] = minimum cost to reach path[i]
     int L = (int)path.size();
 
-    const long long INF = (1LL << 60);
+    const long long INF = LLONG_MAX;
     vector<long long> dp(L, INF);
 
     dp[0] = 0;
